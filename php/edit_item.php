@@ -82,9 +82,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['item_id'])) {
             </div>
             
             <div class="navbar-links">
-                <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
-                <a href="html/listings.html"><i class="fas fa-search"></i> Browse</a>
-                <a href="html/post_item.html"><i class="fas fa-plus-circle"></i> Sell</a>
+                <a href="../index.php" class="active"><i class="fas fa-home"></i> Home</a>
+                <a href="listings.php"><i class="fas fa-search"></i> Browse</a>
+                <a href="post_item.php"><i class="fas fa-plus-circle"></i> Sell</a>
                 <div class="navbar-dropdown">
                     <button class="dropdown-btn">
                         <i class="fas fa-user"></i> Account <i class="fas fa-caret-down"></i>
@@ -118,9 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['item_id'])) {
                     <select id="category" name="category" required>
                         <option value="textbooks" <?php echo $item['category'] === 'textbooks' ? 'selected' : ''; ?>>Textbooks</option>
                         <option value="electronics" <?php echo $item['category'] === 'electronics' ? 'selected' : ''; ?>>Electronics</option>
-                        <option value="furniture" <?php echo $item['category'] === 'furniture' ? 'selected' : ''; ?>>Furniture</option>
-                        <option value="clothing" <?php echo $item['category'] === 'clothing' ? 'selected' : ''; ?>>Clothing</option>
-                        <option value="other" <?php echo $item['category'] === 'other' ? 'selected' : ''; ?>>Other</option>
+                        <option value="others" <?php echo $item['category'] === 'other' ? 'selected' : ''; ?>>Other</option>
                     </select>
                 </div>
                 <div class="form-group">

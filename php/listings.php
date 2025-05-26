@@ -30,13 +30,8 @@ try {
     $stmt = $conn->prepare($sql);
     $stmt->execute($params);
     $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    // Debug: Log query results
-    file_put_contents('debug.log', 'Items: ' . print_r($items, true) . PHP_EOL, FILE_APPEND);
 } catch (PDOException $e) {
     $items = [];
-    // Log error
-    file_put_contents('debug.log', 'Error: ' . $e->getMessage() . PHP_EOL, FILE_APPEND);
 }
 ?>
 
