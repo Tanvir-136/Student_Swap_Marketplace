@@ -1,0 +1,158 @@
+/* Import shared styles */
+@import url('style.css');
+
+/* Main section padding */
+.listings {
+    padding: 20px 0;
+}
+
+/* Title styling */
+.section-title {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* Subtitle styling */
+.section-subtitle {
+    color: #666;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Search form layout */
+.search-filter {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* Search input */
+.search-filter input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    flex: 1;
+    min-width: 200px;
+}
+
+/* Category dropdown */
+.search-filter select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    min-width: 150px;
+}
+
+/* Search button */
+.search-filter .btn-primary {
+    background: #3498db;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+}
+
+/* Item grid layout */
+.item-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* Item card styling */
+.item-card {
+    background: #f4faff; /* Solid light blue */
+    padding: 15px;
+    border-radius: 8px;
+    border: 2px solid #3498db; /* Blue border */
+    text-align: center;
+}
+
+/* Item title */
+.item-card h3 {
+    color: #2c3e50;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Item price */
+.item-card .price {
+    color: #3498db;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Item description */
+.item-card .description {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+/* Contact button */
+.item-card .btn-primary {
+    background: #3498db;
+    color: white;
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+/* Seller info (hidden by default) */
+.item-card .contact-info {
+    display: none;
+    margin-top: 10px;
+    padding: 8px;
+    background: #f4faff;
+    border-radius: 4px;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Show seller info */
+.item-card .contact-info.show {
+    display: block;
+}
+
+/* Seller info paragraphs */
+.item-card .contact-info p {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+/* Email link */
+.item-card .contact-info a {
+    color: #3498db;
+}
+
+/* No items message */
+.no-items {
+    text-align: center;
+    color: #666;
+    font-size: 16px;
+    margin: 20px 0;
+}
+
+/* Error message */
+.error {
+    background: #ffe6e6;
+    color: #d8000c;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Responsive form for small screens */
+@media (max-width: 768px) {
+    .search-filter {
+        flex-direction: column;
+    }
+    .search-filter input,
+    .search-filter select,
+    .search-filter .btn-primary {
+        width: 100%;
+    }
+}
