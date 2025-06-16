@@ -1,0 +1,129 @@
+.about-us {
+    background-color: #f9f9f9;
+    padding: 60px 0;
+    min-height: 90vh;
+}
+
+.hero-content {
+    text-align: center;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 2.5em;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.hero-subtitle {
+    font-size: 1.2em;
+    color: #7f8c8d;
+    margin-bottom: 40px;
+    font-style: italic;
+}
+
+.about-sections {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.section {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.section-icon {
+    font-size: 2em;
+    color: #3498db;
+    margin-bottom: 15px;
+}
+
+.section h2 {
+    font-size: 1.5em;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.section p {
+    color: #7f8c8d;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.section ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: left;
+}
+
+.section ul li {
+    margin: 10px 0;
+    color: #7f8c8d;
+}
+
+.section ul li strong {
+    color: #3498db;
+}
+
+.call-to-action {
+    background-color: #ecf0f1;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.call-to-action p {
+    font-size: 1.1em;
+    color: #2c3e50;
+}
+
+.call-to-action a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.call-to-action a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 1200px) {
+    .section {
+        width: 300px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .about-sections {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .section {
+        width: 100%;
+        max-width: 400px;
+        margin: 15px 0;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    .hero-subtitle {
+        font-size: 1em;
+    }
+}

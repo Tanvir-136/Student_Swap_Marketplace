@@ -1,38 +1,10 @@
 <?php
 session_start();
 
-// Redirect to profile if already logged in
+// Redirect to profile if logged in (optional consistency with other pages)
 if (isset($_SESSION['user_id'])) {
     header("Location: profile.php");
     exit();
-}
-
-require_once 'db_connect.php';
-
-$error = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-    $password = $_POST['password'];
-
-    if (empty($email) || empty($password)) {
-        $error = 'Email and password are required.';
-    } else {
-        try {
-            $stmt = $conn->prepare("SELECT id, password FROM users WHERE email = :email");
-            $stmt->execute(['email' => $email]);
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if ($user && password_verify($password, $user['password'])) {
-                $_SESSION['user_id'] = $user['id'];
-                header("Location: profile.php");
-                exit();
-            } else {
-                $error = 'Invalid email or password.';
-            }
-        } catch (PDOException $e) {
-            $error = 'Login failed: ' . $e->getMessage();
-        }
-    }
 }
 ?>
 
@@ -41,13 +13,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudentSwap - Login</title>
+    <title>About Us - StudentSwap</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/about_us.css"> <!-- Custom CSS for About Us -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Navigation Bar (Same as index.php and register.php) -->
+    <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="container">
             <div class="navbar-brand">
@@ -79,38 +51,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </nav>
 
-    <!-- Hero Section (Compact, Image Left, Form Right) -->
-    <section class="hero compact">
+    <!-- About Us Section -->
+    <section class="hero about-us">
         <div class="container">
             <div class="hero-content">
-                <h1>Login to StudentSwap</h1>
-                <p class="hero-subtitle">Sign in to buy and sell on campus</p>
-                <form action="login.php" method="post" class="auth-form">
-                    <?php if ($error): ?>
-                        <p class="error"><?php echo htmlspecialchars($error); ?></p>
-                    <?php endif; ?>
-                    <div class="form-group">
-                        <label for="email"><i class="fas fa-envelope"></i> Email</label>
-                        <input type="email" id="email" name="email" placeholder="your.email@university.edu" required>
+                <h1>About Us</h1>
+                <p class="hero-subtitle">Explore the Core of StudentSwap</p>
+
+                <div class="about-sections">
+                    <!-- Vision Section -->
+                    <div class="section">
+                        <i class="fas fa-eye section-icon"></i>
+                        <h2>Our Vision</h2>
+                        <p>We aim to create a sustainable student community where item exchanges reduce waste and promote collaboration worldwide by 2030.</p>
                     </div>
-                    <div class="form-group">
-                        <label for="password"><i class="fas fa-lock"></i> Password</label>
-                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+                    <!-- Mission Section -->
+                    <div class="section">
+                        <i class="fas fa-bullseye section-icon"></i>
+                        <h2>Our Mission</h2>
+                        <p>Our mission is to provide a secure platform for students to trade items, supported by a MySQL database with tables like <code>users</code>, <code>listings</code>, and <code>transactions</code>.</p>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">Login</button>
-                    <div class="auth-footer">
-                        <p>Forgot your password? <a href="recover_password.php">Recover Password</a></p>
-                        <p>Don't have an account? <a href="register.php">Register here</a></p>
+
+                    <!-- Advantages Section -->
+                    <div class="section">
+                        <i class="fas fa-star section-icon"></i>
+                        <h2>Advantages</h2>
+                        <ul>
+                            <li><strong>Affordable Deals:</strong> Buy and sell at student-friendly prices.</li>
+                            <li><strong>Secure Trades:</strong> Track via <code>transactions</code> with foreign keys.</li>
+                            <li><strong>Fast Recovery:</strong> Reset passwords with <code>password_resets</code> (valid 1 hour).</li>
+                            <li><strong>Connect Easily:</strong> Message others with <code>messages</code>.</li>
+                            <li><strong>Go Green:</strong> Reuse items from <code>listings</code>.</li>
+                            <li><strong>24/7 Access:</strong> Always available with a reliable database.</li>
+                        </ul>
                     </div>
-                </form>
-            </div>
-            <div class="hero-image compact">
-                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="Students exchanging items">
+                </div>
+
+                <div class="call-to-action">
+                    <p>Join us! <a href="mailto:contact@studentswap.com">Contact us</a> or call (123) 456-7890.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer (Same as index.php and register.php) -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">

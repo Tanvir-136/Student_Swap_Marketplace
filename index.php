@@ -108,7 +108,7 @@ session_start();
             <p class="section-subtitle">Find what you're looking for</p>
             
             <div class="categories-grid">
-                <a href="listings.html?category=textbooks" class="category-card">
+                <a href="php/listings.php" class="category-card">
                     <div class="category-icon">
                         <i class="fas fa-book"></i>
                     </div>
@@ -116,7 +116,7 @@ session_start();
                     <p>Required course materials</p>
                 </a>
                 
-                <a href="listings.html?category=electronics" class="category-card">
+                <a href="php/listings.php" class="category-card">
                     <div class="category-icon">
                         <i class="fas fa-laptop"></i>
                     </div>
@@ -124,11 +124,11 @@ session_start();
                     <p>Laptops, phones, and more</p>
                 </a>
                 
-                <a href="listings.html?category=furniture" class="category-card">
+                <a href="php/listings.php" class="category-card">
                     <div class="category-icon">
                         <i class="fas fa-couch"></i>
                     </div>
-                    <h3>Furniture</h3>
+                    <h3>Others</h3>
                     <p>Dorm essentials</p>
                 </a>
             </div>
@@ -155,7 +155,7 @@ session_start();
                 <div class="footer-contact">
                     <h4>Contact</h4>
                     <p><i class="fas fa-envelope"></i> contact@studentswap.com</p>
-                    <p><i class="fas fa-phone"></i> (123) 456-7890</p>
+                    <p><i class="fas fa-phone"></i> 01723-410727</p>
                 </div>
             </div>
             

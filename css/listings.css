@@ -1,76 +1,85 @@
-/* Import shared styles */
 @import url('style.css');
 
 /* Main section padding */
 .listings {
-    padding: 20px 0;
+    padding: 40px 0; /* Increased for better spacing, matching hero sections */
 }
 
-/* Title styling */
+/* Section title and subtitle */
 .section-title {
-    color: #2c3e50;
+    color: var(--dark, #2c3e50);
     text-align: center;
+    font-size: 1.8rem; /* Match register.css h1 */
     margin-bottom: 10px;
 }
 
-/* Subtitle styling */
 .section-subtitle {
-    color: #666;
+    color: var(--gray, #666);
     text-align: center;
+    font-size: 0.9rem; /* Match hero-subtitle */
     margin-bottom: 20px;
 }
 
-/* Search form layout */
+/* Search filter */
 .search-filter {
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
 }
 
-/* Search input */
 .search-filter input {
     padding: 8px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--light-gray, #ddd);
     border-radius: 4px;
     flex: 1;
     min-width: 200px;
+    font-size: 0.9rem; /* Match form inputs */
 }
 
-/* Category dropdown */
 .search-filter select {
     padding: 8px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--light-gray, #ddd);
     border-radius: 4px;
     min-width: 150px;
+    font-size: 0.9rem;
 }
 
-/* Search button */
 .search-filter .btn-primary {
-    background: #3498db;
-    color: white;
+    background: var(--primary, #3498db);
+    color: var(--white, white);
     padding: 8px 16px;
     border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
 }
 
-/* Item grid layout */
+.search-filter .btn-primary:hover {
+    background: var(--primary-dark, #2980b9);
+}
+
+/* Item grid */
 .item-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
 }
 
-/* Item card styling */
+/* Item card */
 .item-card {
     background: #f4faff; /* Solid light blue */
     padding: 15px;
     border-radius: 8px;
-    border: 2px solid #3498db; /* Blue border */
+    border: 2px solid var(--primary, #3498db); /* Blue border */
     text-align: center;
+    box-shadow: var(--shadow); /* Match register.css */
+    min-width: 0; /* Prevent overflow issues */
 }
 
 /* Item title */
 .item-card h3 {
-    color: #2c3e50;
+    color: var(--dark, #2c3e50);
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 10px;
@@ -78,7 +87,7 @@
 
 /* Item price */
 .item-card .price {
-    color: #3498db;
+    color: var(--primary, #3498db);
     font-size: 16px;
     font-weight: bold;
     margin-bottom: 10px;
@@ -86,18 +95,25 @@
 
 /* Item description */
 .item-card .description {
-    color: #666;
+    color: var(--gray, #666);
     font-size: 14px;
     margin-bottom: 15px;
 }
 
 /* Contact button */
 .item-card .btn-primary {
-    background: #3498db;
-    color: white;
+    background: var(--primary, #3498db);
+    color: var(--white, white);
     width: 100%;
     padding: 10px;
     border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.item-card .btn-primary:hover {
+    background: var(--primary-dark, #2980b9);
 }
 
 /* Seller info (hidden by default) */
@@ -107,8 +123,9 @@
     padding: 8px;
     background: #f4faff;
     border-radius: 4px;
-    color: #666;
+    color: var(--gray, #666);
     font-size: 14px;
+    overflow-wrap: break-word; /* Break long words (e.g., emails) */
 }
 
 /* Show seller info */
@@ -118,19 +135,25 @@
 
 /* Seller info paragraphs */
 .item-card .contact-info p {
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin: 5px 0;
+    overflow-wrap: break-word; /* Ensure paragraphs break long text */
 }
 
 /* Email link */
 .item-card .contact-info a {
-    color: #3498db;
+    color: var(--primary, #3498db);
+    text-decoration: none;
+    overflow-wrap: break-word; /* Break long URLs or emails */
+}
+
+.item-card .contact-info a:hover {
+    color: var(--primary-dark, #2980b9);
 }
 
 /* No items message */
 .no-items {
     text-align: center;
-    color: #666;
+    color: var(--gray, #666);
     font-size: 16px;
     margin: 20px 0;
 }
@@ -143,16 +166,124 @@
     margin-bottom: 20px;
     border-radius: 5px;
     text-align: center;
+    font-size: 0.8rem; /* Match register.css error */
 }
 
-/* Responsive form for small screens */
+/* Responsive Design */
+@media (max-width: 992px) {
+    .listings {
+        padding: 30px 0; /* Slightly reduced padding */
+    }
+
+    .item-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Smaller cards */
+        gap: 15px; /* Reduced gap */
+    }
+
+    .item-card {
+        padding: 12px; /* Reduced padding */
+    }
+
+    .section-title {
+        font-size: 1.5rem; /* Smaller title */
+    }
+
+    .section-subtitle {
+        font-size: 0.8rem;
+    }
+
+    .item-card .contact-info {
+        font-size: 13px; /* Slightly smaller text */
+    }
+}
+
 @media (max-width: 768px) {
+    .listings {
+        padding: 20px 0; /* Further reduced padding */
+    }
+
     .search-filter {
         flex-direction: column;
+        gap: 8px;
     }
+
     .search-filter input,
     .search-filter select,
     .search-filter .btn-primary {
         width: 100%;
+        min-width: unset; /* Allow full width */
+        font-size: 0.85rem; /* Slightly smaller text */
+    }
+
+    .item-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); /* Even smaller cards */
+        gap: 10px;
+    }
+
+    .item-card h3 {
+        font-size: 16px; /* Smaller title */
+    }
+
+    .item-card .price {
+        font-size: 14px;
+    }
+
+    .item-card .description {
+        font-size: 13px;
+    }
+
+    .item-card .contact-info {
+        font-size: 12px; /* Adjusted for mobile */
+    }
+
+    .no-items {
+        font-size: 14px;
+        margin: 15px 0;
+    }
+
+    .error {
+        font-size: 0.75rem;
+        padding: 8px;
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .listings {
+        padding: 15px 0; /* Minimal padding for small screens */
+    }
+
+    .item-grid {
+        grid-template-columns: 1fr; /* Single column for very small screens */
+        gap: 8px;
+    }
+
+    .item-card {
+        padding: 10px;
+    }
+
+    .section-title {
+        font-size: 1.3rem;
+    }
+
+    .section-subtitle {
+        font-size: 0.75rem;
+    }
+
+    .search-filter input,
+    .search-filter select,
+    .search-filter .btn-primary {
+        padding: 6px;
+        font-size: 0.8rem;
+    }
+
+    .item-card .btn-primary {
+        padding: 8px;
+        font-size: 0.8rem;
+    }
+
+    .item-card .contact-info {
+        font-size: 11px; /* Smaller text for very small screens */
+        padding: 6px;
     }
 }

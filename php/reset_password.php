@@ -1,36 +1,47 @@
 <?php
 session_start();
 
-// Redirect to profile if already logged in
-if (isset($_SESSION['user_id'])) {
-    header("Location: profile.php");
-    exit();
-}
-
 require_once 'db_connect.php';
 
+// Initialize variables
+$token = isset($_GET['token']) ? filter_input(INPUT_GET, 'token', FILTER_SANITIZE_STRING) : '';
 $error = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-    $password = $_POST['password'];
+$success = '';
 
-    if (empty($email) || empty($password)) {
-        $error = 'Email and password are required.';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token']) && isset($_POST['new_password'])) {
+    // Correct usage of filter_input with INPUT_POST
+    $token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_STRING); // Fixed here
+    $new_password = filter_input(INPUT_POST, 'new_password', FILTER_SANITIZE_STRING);
+
+    if (strlen($new_password) < 8) {
+        $error = 'Password must be at least 8 characters.';
     } else {
         try {
-            $stmt = $conn->prepare("SELECT id, password FROM users WHERE email = :email");
-            $stmt->execute(['email' => $email]);
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt = $conn->prepare("SELECT email FROM password_resets WHERE token = :token AND expires_at > NOW()");
+            $stmt->execute(['token' => $token]);
+            $reset = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($user && password_verify($password, $user['password'])) {
-                $_SESSION['user_id'] = $user['id'];
-                header("Location: profile.php");
-                exit();
+            if ($reset === false) {
+                $error = 'Invalid or expired token. Debug: No row found for token ' . htmlspecialchars($token);
+            } elseif (!is_array($reset)) {
+                $error = 'Unexpected query result. Debug: reset is ' . var_export($reset, true);
             } else {
-                $error = 'Invalid email or password.';
+                $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+                $stmt = $conn->prepare("UPDATE users SET password = :password WHERE email = :email");
+                $update_result = $stmt->execute(['password' => $hashed_password, 'email' => $reset['email']]);
+
+                if ($update_result) {
+                    $stmt = $conn->prepare("DELETE FROM password_resets WHERE token = :token");
+                    $stmt->execute(['token' => $token]);
+                    $success = 'Password reset successful! Redirecting to login...';
+                    header("Refresh: 2; URL=login.php");
+                } else {
+                    $error = 'Failed to update password. Debug: Update query failed.';
+                }
             }
         } catch (PDOException $e) {
-            $error = 'Login failed: ' . $e->getMessage();
+            $error = 'An error occurred. Please try again later. Debug: ' . $e->getMessage();
+            file_put_contents('reset_password_error.log', date('Y-m-d H:i:s') . " - " . $e->getMessage() . "\n", FILE_APPEND);
         }
     }
 }
@@ -41,13 +52,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudentSwap - Login</title>
+    <title>Reset Password - StudentSwap</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/recover_password.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Navigation Bar (Same as index.php and register.php) -->
+    <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="container">
             <div class="navbar-brand">
@@ -79,38 +90,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </nav>
 
-    <!-- Hero Section (Compact, Image Left, Form Right) -->
+    <!-- Reset Password Section -->
     <section class="hero compact">
         <div class="container">
             <div class="hero-content">
-                <h1>Login to StudentSwap</h1>
-                <p class="hero-subtitle">Sign in to buy and sell on campus</p>
-                <form action="login.php" method="post" class="auth-form">
-                    <?php if ($error): ?>
-                        <p class="error"><?php echo htmlspecialchars($error); ?></p>
-                    <?php endif; ?>
+                <h1>Reset Password</h1>
+                <p class="hero-subtitle">Enter your new password</p>
+                <?php if ($error): ?>
+                    <p class="error"><?php echo htmlspecialchars($error); ?></p>
+                <?php endif; ?>
+                <?php if ($success): ?>
+                    <p class="success"><?php echo htmlspecialchars($success); ?></p>
+                <?php endif; ?>
+                <form action="reset_password.php" method="post" class="auth-form">
+                    <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
                     <div class="form-group">
-                        <label for="email"><i class="fas fa-envelope"></i> Email</label>
-                        <input type="email" id="email" name="email" placeholder="your.email@university.edu" required>
+                        <label for="new_password"><i class="fas fa-lock"></i> New Password</label>
+                        <input type="password" id="new_password" name="new_password" required>
+                        <span class="password-hint">Minimum 8 characters</span>
                     </div>
-                    <div class="form-group">
-                        <label for="password"><i class="fas fa-lock"></i> Password</label>
-                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Login</button>
-                    <div class="auth-footer">
-                        <p>Forgot your password? <a href="recover_password.php">Recover Password</a></p>
-                        <p>Don't have an account? <a href="register.php">Register here</a></p>
-                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Reset Password</button>
                 </form>
-            </div>
-            <div class="hero-image compact">
-                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="Students exchanging items">
             </div>
         </div>
     </section>
 
-    <!-- Footer (Same as index.php and register.php) -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
